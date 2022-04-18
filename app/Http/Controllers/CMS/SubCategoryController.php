@@ -5,6 +5,8 @@ namespace App\Http\Controllers\CMS;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Requests\SubCategoryStoreRequest;
+use App\Http\Requests\SubCategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -17,8 +19,8 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::query()->rootParent()->paginate(10);
-        return view('backend.categories.index', compact('categories'));
+        $categories = Category::query()->subCategories()->with('parent')->latest()->paginate(10);
+        return view('backend.sub-categories.index', compact('categories'));
     }
 
     /**
@@ -38,10 +40,12 @@ class SubCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(SubCategoryStoreRequest $request)
     {
-        $category = Category::create($request->only(['name']));
-        $category->addMediaFromRequest('image')->toMediaCollection('category');
+        $category = Category::create($request->only(['name', 'parent_id']));
+        if ($request->hasFile('image')) {
+            $category->addMediaFromRequest('image')->toMediaCollection('category');
+        }
         return redirect()->route('categories.index')->with('success', 'Category was created successfully');
     }
 
@@ -64,7 +68,8 @@ class SubCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('backend.categories.edit', compact('category'));
+        $categories = Category::all();
+        return view('backend.sub-categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -74,17 +79,18 @@ class SubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryUpdateRequest $request, Category $category)
+    public function update(SubCategoryUpdateRequest $request, Category $category)
     {
         $category->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'parent_id' => $request->parent_id
         ]);
         if ($request->hasFile('image')) {
             $category->clearMediaCollection('category');
             $category->addMediaFromRequest('image')
                 ->toMediaCollection('category');
         }
-        return redirect()->route('categories.index')->with('success', 'The category was update successfully');
+        return redirect()->route('sub-categories.index')->with('success', 'The sub category was update successfully');
     }
 
     /**

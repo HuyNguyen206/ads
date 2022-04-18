@@ -4,7 +4,7 @@
         <div class="content-wrapper">
 
 
-            <h3>Add Category</h3>
+            <h3>Add sub Category</h3>
             <div class="row justify-content-center">
                 <div class="col-md-10">
 
@@ -29,13 +29,13 @@
 
                                 <div class="form-group">
                                     <label for="image">Parent category</label>
-                                    <select name="parent_category_id" id="">
+                                    <select name="parent_id" id="" class="form-control @error('parent_id') is-invalid @enderror">
                                         <option value="">--Select category--</option>
                                         @foreach($rootCategories as $category)
-                                            <option @if(old('parent_category_id') == $category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
+                                            <option @if(old('parent_id') == $category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('parent_category_id')
+                                    @error('parent_id')
                                     <span class="invalid-feedback" role="alert">
                                             <strong>
                                                 {{ $message }}

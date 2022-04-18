@@ -25,7 +25,8 @@ class CategoryUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','min:3', Rule::unique('categories', 'name')->whereNotIn('name', [$this->route('category')->name])],
+//            'name' => ['required','string','min:3', Rule::unique('categories', 'name')->whereNotIn('name', [$this->route('category')->name])],
+            'name' => ['required','string','min:3', Rule::unique('categories')->ignore($this->route('category'))],
             'image' => 'mimes:png,jpg,jpeg'
         ];
     }

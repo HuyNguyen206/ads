@@ -18,6 +18,7 @@
                                     <tr>
                                         <th>Image</th>
                                         <th>Name</th>
+                                        <th>Parent</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -31,12 +32,13 @@
                                                 @endif
                                             </td>
                                             <td>{{$category->name}}</td>
-                                            <td> <a href="{{route('categories.edit', $category->slug)}}" class="btn btn-info"><i class="mdi mdi-table-edit"></i></a></td>
+                                            <td >{{optional($category->parent)->name}}</td>
+                                            <td> <a href="{{route('sub-categories.edit', $category->slug)}}" class="btn btn-info"><i class="mdi mdi-table-edit"></i></a></td>
                                             @php
                                             $formId = "deleteCategory_$category->slug"
                                             @endphp
                                             <td><button onclick="if(confirm('Do you want to delete this category?')) {document.getElementById('{{$formId}}').submit()}" class="btn btn-danger"><i class="mdi mdi-delete"></i></button>
-                                                <form id="{{$formId}}" action="{{route('categories.destroy', $category->slug)}}" method="post">
+                                                <form id="{{$formId}}" action="{{route('sub-categories.destroy', $category->slug)}}" method="post">
                                                     @csrf
                                                     @method('delete')
                                                 </form>

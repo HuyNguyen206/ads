@@ -39,7 +39,9 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $category = Category::create($request->only(['name']));
-        $category->addMediaFromRequest('image')->toMediaCollection('category');
+        if ($request->hasFile('image')) {
+            $category->addMediaFromRequest('image')->toMediaCollection('category');
+        }
         return redirect()->route('categories.index')->with('success', 'Category was created successfully');
     }
 

@@ -25,7 +25,7 @@ class CategoryStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|unique:categories',
-            'image' => 'required|mimes:png,jpg,jpeg'
+            'image' => 'mimes:png,jpg,jpeg',
         ];
     }
 }

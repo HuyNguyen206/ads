@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form class="forms-sample" action="{{route('categories.update', $category->slug)}}" method="post" enctype="multipart/form-data">
+                            <form class="forms-sample" action="{{route('sub-categories.update', $category->slug)}}" method="post" enctype="multipart/form-data">
                                 @method('put')
                                 @csrf
                                 <div class="form-group">
@@ -19,6 +19,23 @@
                                     <input type="text" name="name" value="{{old('name', $category->name)}}" class="form-control @error('name') is-invalid @enderror"
                                            placeholder="name of category">
                                     @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="image">Parent category</label>
+                                    <select name="parent_id" id="" class="form-control @error('parent_id') is-invalid @enderror">
+                                        <option value="">--Select category--</option>
+                                        @foreach($categories as $cat)
+                                            <option @if(old('parent_id', $category->parent_id) == $cat->id) selected @endif value="{{$cat->id}}">{{$cat->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('parent_id')
                                     <span class="invalid-feedback" role="alert">
                                             <strong>
                                                 {{ $message }}

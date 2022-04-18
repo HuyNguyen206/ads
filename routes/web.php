@@ -21,6 +21,6 @@ Route::prefix('cms')->middleware('auth')->group(function (){
     Route::get('/', [\App\Http\Controllers\CMS\DashboardController::class, 'index']);
     Route::resources([
         'categories' => \App\Http\Controllers\CMS\CategoryController::class,
-        'sub-categories' => \App\Http\Controllers\CMS\SubCategoryController::class
     ]);
+    Route::resource(  'sub-categories' , \App\Http\Controllers\CMS\SubCategoryController::class)->parameter('sub-categories', 'category');
 });
