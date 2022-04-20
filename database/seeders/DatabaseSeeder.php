@@ -19,5 +19,8 @@ class DatabaseSeeder extends Seeder
         ]);
          \App\Models\User::factory(3)->create();
          $this->call(CategorySeeder::class);
+         $this->call(CountrySeeder::class);
+         $this->call(StateSeeder::class);
+         $this->call(CitySeeder::class);
     }
 }

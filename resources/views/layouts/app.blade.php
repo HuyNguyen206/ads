@@ -13,6 +13,31 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+
+        /* ============ desktop view ============ */
+        @media all and (min-width: 992px) {
+            .dropdown-menu li{ position: relative; 	}
+            .nav-item .submenu{
+                display: none;
+                position: absolute;
+                left:100%; top:-7px;
+            }
+            .nav-item .submenu-left{
+                right:100%; left:auto;
+            }
+            .dropdown-menu > li:hover{ background-color: #f1f1f1 }
+            .dropdown-menu > li:hover > .submenu{ display: block; }
+        }
+        /* ============ desktop view .end// ============ */
+
+        /* ============ small devices ============ */
+        @media (max-width: 991px) {
+            .dropdown-menu .dropdown-menu{
+                margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+            }
+        }
+    </style>
     @yield('css')
 </head>
 <body>
@@ -65,32 +90,76 @@
             </div>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Brand</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <div class="collapse navbar-collapse" id="main_nav">
                 <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    @foreach($categories as $rootCategory)
+                    <li class="nav-item dropdown" id="myDropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> {{$rootCategory->name}} </a>
+                        <ul class="dropdown-menu">
+                            @foreach($rootCategory->categories as $category)
+                            <li> <a class="dropdown-item" href="#">  {{$category->name}}  @if($hasChild = $category->categories->count()) &raquo; @endif </a>
+                                @if($hasChild)
+                                <ul class="submenu dropdown-menu">
+                                    @foreach($category->categories as $childCategory)
+                                    <li><a class="dropdown-item" href="#">{{$childCategory->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </li>
+                            @endforeach
                         </ul>
                     </li>
+                    @endforeach
                 </ul>
             </div>
+            <!-- navbar-collapse.// -->
         </div>
+        <!-- container-fluid.// -->
     </nav>
-
     <main class="py-4">
         @yield('content')
     </main>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+// make it as accordion for smaller screens
+        if (window.innerWidth < 992) {
+
+            // close all inner dropdowns when parent is closed
+            document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown){
+                everydropdown.addEventListener('hidden.bs.dropdown', function () {
+                    // after dropdown is hidden, then find all submenus
+                    this.querySelectorAll('.submenu').forEach(function(everysubmenu){
+                        // hide every submenu as well
+                        everysubmenu.style.display = 'none';
+                    });
+                })
+            });
+
+            document.querySelectorAll('.dropdown-menu a').forEach(function(element){
+                element.addEventListener('click', function (e) {
+                    let nextEl = this.nextElementSibling;
+                    if(nextEl && nextEl.classList.contains('submenu')) {
+                        // prevent opening link if link needs to open dropdown
+                        e.preventDefault();
+                        if(nextEl.style.display == 'block'){
+                            nextEl.style.display = 'none';
+                        } else {
+                            nextEl.style.display = 'block';
+                        }
+
+                    }
+                });
+            })
+        }
+// end if innerWidth
+    });
+</script>
 </body>
 </html>
