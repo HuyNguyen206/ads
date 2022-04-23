@@ -46,38 +46,10 @@
                                     <image-preview name="first_image"></image-preview>
                                     <image-preview name="second_image"></image-preview>
                                 </div>
-
-{{--                                    <FeatureImage></FeatureImage>--}}
-
-{{--                                    <input type="file" class="" name="feature_image" accept="image/*">--}}
-
-
-
                             </div>
                             <label for="file" class="mt-2"><b>Choose category</b></label>
                             <div class="form-inline form-group mt-1">
                                 <category :categories="{{json_encode($rootCategories)}}"></category>
-{{--            <div class="row">--}}
-{{--                <div class="col-md-4">--}}
-{{--                    <select class="form-control" name="category_id">--}}
-{{--                        <option value=""> choose category</option>--}}
-{{--                        @foreach($rootCategories as $rootCategory)--}}
-{{--                            <option value="{{$rootCategory->id}}"> {{$rootCategory->name}}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--                <div class="col-md-4">--}}
-{{--                    <select class="form-control" name="sub_category_id">--}}
-{{--                        <option value="">choose subcategory</option>--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--                <div class="col-md-4">--}}
-{{--                    <select class="form-control" name="child_category_id">--}}
-{{--                        <option value="">choose childcategory</option>--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
 
                             </div>
 
@@ -115,25 +87,25 @@
                             </div>
                             <label for="file" class="mt-2"><b>Choose address</b></label>
                             <div class="form-inline form-group mt-1">
-
-                                <div class="col-md-4">
-                                    <select class="form-control" name="country_id">
-                                        <option value=""> Select country</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{$country->id}}"> {{$country->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" name="state_id">
-                                        <option value="">Select state</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-control" name="city_id">
-                                        <option value="">Select city </option>
-                                    </select>
-                                </div>
+                            <address-ads :countries="{{json_encode($countries)}}"></address-ads>
+{{--                                <div class="col-md-4">--}}
+{{--                                    <select class="form-control" name="country_id">--}}
+{{--                                        <option value=""> Select country</option>--}}
+{{--                                        @foreach($countries as $country)--}}
+{{--                                            <option value="{{$country->id}}"> {{$country->name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-md-4">--}}
+{{--                                    <select class="form-control" name="state_id">--}}
+{{--                                        <option value="">Select state</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-md-4">--}}
+{{--                                    <select class="form-control" name="city_id">--}}
+{{--                                        <option value="">Select city </option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
 
                             </div>
                             <div class="form-group">
@@ -172,9 +144,3 @@
 
     </style>
 @endsection
-<script>
-    import ImagePreview from "../../js/components/ImagePreview";
-    export default {
-        components: {ImagePreview}
-    }
-</script>

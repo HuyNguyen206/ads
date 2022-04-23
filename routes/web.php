@@ -26,3 +26,4 @@ Route::prefix('cms')->middleware('auth')->group(function (){
 });
 
 Route::resource('ads', \App\Http\Controllers\AdvertisementController::class);
+

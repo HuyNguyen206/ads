@@ -10,4 +10,5 @@ const app = createApp({});
 // app.component('Example', require('./components/Example.vue').default)
 app.component('image-preview', require('./components/ImagePreview.vue').default)
 app.component('category', require('./components/Category.vue').default)
+app.component('address-ads', require('./components/Address.vue').default)
 app.mount('#app');
