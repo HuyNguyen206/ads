@@ -1,1 +1,13 @@
 require('./bootstrap');
+import {
+    createApp
+} from 'vue';
+const app = createApp({});
+
+// You can register your components globally like this also
+// Add as many components as you want.
+
+// app.component('Example', require('./components/Example.vue').default)
+app.component('image-preview', require('./components/ImagePreview.vue').default)
+app.component('category', require('./components/Category.vue').default)
+app.mount('#app');

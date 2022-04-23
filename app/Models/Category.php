@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CreateSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,19 +12,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Category extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, CreateSlug;
     protected static $unguarded = true;
-
-    protected static function booted()
-    {
-            static::creating(function (Category $category){
-                $category->slug = Str::slug($category->name);
-            });
-
-            static::updating(function (Category $category){
-                $category->slug = Str::slug($category->name);
-            });
-    }
 
     public function categories()
     {
