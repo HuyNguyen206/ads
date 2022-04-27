@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    props:['name'],
+    props:['name', 'current_img'],
     name: "ImagePreview",
     data(){
      return {
@@ -20,6 +20,11 @@ export default {
         previewImage(e){
             const file = e.target.files[0]
             this.url =URL.createObjectURL(file)
+        }
+    },
+    mounted() {
+        if (this.current_img) {
+            this.url = this.current_img
         }
     }
 }

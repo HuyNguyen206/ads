@@ -25,5 +25,5 @@ Route::prefix('cms')->middleware('auth')->group(function (){
     Route::resource(  'sub-categories' , \App\Http\Controllers\CMS\SubCategoryController::class)->parameter('sub-categories', 'category');
 });
 
-Route::resource('ads', \App\Http\Controllers\AdvertisementController::class);
+Route::resource('ads', \App\Http\Controllers\AdvertisementController::class)->parameter('ads', 'advertisement');
 

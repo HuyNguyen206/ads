@@ -5,23 +5,7 @@
         <h2>Please watch video </h2>
         <div class="row ">
             <div class="col-md-3">
-                <div class="card ">
-
-                    <div class="card-body ">
-                        <img class="mx-auto d-block img-thumbnail" src="/img/man.jpg" width="130">
-                        <p class="text-center"><b>John Doe</b></p>
-                    </div>
-                    <hr style="border:2px solid blue;">
-                    <div class="vertical-menu">
-                        <a href="#">Dashboard</a>
-                        <a href="#">Profile</a>
-                        <a href="#">Create ads</a>
-                        <a href="#">Published ads</a>
-                        <a href="#">Pending ads</a>
-                        <a href="#" class="">Message</a>
-                    </div>
-
-                </div>
+              @include('ads.partial.sidebar')
             </div>
             <div class="col-md-9">
                 @if($errors->any())
@@ -88,25 +72,6 @@
                             <label for="file" class="mt-2"><b>Choose address</b></label>
                             <div class="form-inline form-group mt-1">
                             <address-ads :countries="{{json_encode($countries)}}"></address-ads>
-{{--                                <div class="col-md-4">--}}
-{{--                                    <select class="form-control" name="country_id">--}}
-{{--                                        <option value=""> Select country</option>--}}
-{{--                                        @foreach($countries as $country)--}}
-{{--                                            <option value="{{$country->id}}"> {{$country->name}}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-md-4">--}}
-{{--                                    <select class="form-control" name="state_id">--}}
-{{--                                        <option value="">Select state</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-md-4">--}}
-{{--                                    <select class="form-control" name="city_id">--}}
-{{--                                        <option value="">Select city </option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-
                             </div>
                             <div class="form-group">
                                 <label for="location">Seller contact number</label>

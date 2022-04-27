@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdsStoreRequest;
+use App\Http\Requests\AdsUpdateRequest;
 use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AdvertisementController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth')->except('show');
     }
 
     /**
@@ -23,7 +25,8 @@ class AdvertisementController extends Controller
      */
     public function index()
     {
-        //
+        $ads = \request()->user()->ads;
+        return view('ads.index', compact('ads'));
     }
 
     /**
@@ -49,13 +52,13 @@ class AdvertisementController extends Controller
         $ads = $request->user()->ads()->create(array_merge($request->except(['feature_image', 'first_image', 'second_image', '_token'])));
         if ($ads) {
             if ($request->hasFile('feature_image')) {
-                $ads->addMediaFromRequest('feature_image')->toMediaCollection('ads');
+                $ads->addMediaFromRequest('feature_image')->toMediaCollection('ads.feature_image');
             }
             if ($request->hasFile('first_image')) {
-                $ads->addMediaFromRequest('first_image')->toMediaCollection('ads');
+                $ads->addMediaFromRequest('first_image')->toMediaCollection('ads.first_image');
             }
             if ($request->hasFile('second_image')) {
-                $ads->addMediaFromRequest('second_image')->toMediaCollection('ads');
+                $ads->addMediaFromRequest('second_image')->toMediaCollection('ads.second_image');
             }
         }
         return redirect()->route('ads.index')->with('success', 'The ads was created successfully');
@@ -78,9 +81,11 @@ class AdvertisementController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Advertisement $advertisement)
     {
-        //
+        $rootCategories = Category::query()->rootParent()->get();
+        $countries = Country::all();
+        return view('ads.edit', compact('advertisement', 'rootCategories', 'countries'));
     }
 
     /**
@@ -90,9 +95,26 @@ class AdvertisementController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdsUpdateRequest $request, Advertisement $advertisement)
     {
-        //
+        $updatedData = Arr::except($request->validated(), ['feature_image', 'first_image', 'second_image']);
+        $advertisement->update($updatedData);
+        if ($request->hasFile('feature_image')) {
+            $advertisement->clearMediaCollection('ads.feature_image');
+            $advertisement->addMediaFromRequest('feature_image')
+                ->toMediaCollection('ads.feature_image');
+        }
+        if ($request->hasFile('first_image')) {
+            $advertisement->clearMediaCollection('ads.first_image');
+            $advertisement->addMediaFromRequest('first_image')
+                ->toMediaCollection('ads.first_image');
+        }
+        if ($request->hasFile('second_image')) {
+            $advertisement->clearMediaCollection('ads.second_image');
+            $advertisement->addMediaFromRequest('second_image')
+                ->toMediaCollection('ads.second_image');
+        }
+        return redirect()->route('ads.index')->with('success', 'The ads was update successfully');
     }
 
     /**

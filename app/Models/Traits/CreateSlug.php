@@ -16,4 +16,9 @@ trait CreateSlug
             $model->slug = Str::slug($model->name);
         });
     }
+
+    public function test()
+    {
+
+    }
 }

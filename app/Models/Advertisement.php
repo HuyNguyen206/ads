@@ -12,6 +12,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Advertisement extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, CreateSlug;
+
     protected static $unguarded = true;
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
 }

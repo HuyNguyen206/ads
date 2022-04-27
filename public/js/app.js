@@ -22581,7 +22581,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Address",
-  props: ['countries'],
+  props: ['countries', 'selected_country_id', 'selected_state_id', 'selected_city_id'],
   data: function data() {
     return {
       country_id: null,
@@ -22638,7 +22638,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios.get("/internal-api/address/get-states/".concat(_this2.state_id));
+                return axios.get("/internal-api/address/get-cities/".concat(_this2.state_id));
 
               case 3:
                 _yield$axios$get2 = _context2.sent;
@@ -22660,6 +22660,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, null, [[0, 8]]);
       }))();
     }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!_this3.selected_country_id) {
+                _context3.next = 4;
+                break;
+              }
+
+              _this3.country_id = _this3.selected_country_id;
+              _context3.next = 4;
+              return _this3.getStateByCountryId();
+
+            case 4:
+              if (!_this3.selected_state_id) {
+                _context3.next = 8;
+                break;
+              }
+
+              _this3.state_id = _this3.selected_state_id;
+              _context3.next = 8;
+              return _this3.getCitiesByStateId();
+
+            case 8:
+              if (_this3.selected_city_id) {
+                _this3.city_id = _this3.selected_city_id;
+              }
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 });
 
@@ -22686,7 +22726,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Category",
-  props: ['categories'],
+  props: ['categories', 'selected_category_id', 'selected_sub_category_id', 'selected_child_category_id'],
   data: function data() {
     return {
       category_id: null,
@@ -22771,6 +22811,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!_this2.selected_category_id) {
+                _context3.next = 4;
+                break;
+              }
+
+              _this2.category_id = _this2.selected_category_id;
+              _context3.next = 4;
+              return _this2.getChildCategory('');
+
+            case 4:
+              if (!_this2.selected_sub_category_id) {
+                _context3.next = 8;
+                break;
+              }
+
+              _this2.sub_category_id = _this2.selected_sub_category_id;
+              _context3.next = 8;
+              return _this2.getChildCategory('', 'sub');
+
+            case 8:
+              if (_this2.selected_child_category_id) {
+                _this2.child_category_id = _this2.selected_child_category_id;
+              }
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 });
 
@@ -22788,7 +22868,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['name'],
+  props: ['name', 'current_img'],
   name: "ImagePreview",
   data: function data() {
     return {
@@ -22799,6 +22879,11 @@ __webpack_require__.r(__webpack_exports__);
     previewImage: function previewImage(e) {
       var file = e.target.files[0];
       this.url = URL.createObjectURL(file);
+    }
+  },
+  mounted: function mounted() {
+    if (this.current_img) {
+      this.url = this.current_img;
     }
   }
 });

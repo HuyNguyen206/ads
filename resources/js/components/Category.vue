@@ -24,7 +24,7 @@
 <script>
 export default {
     name: "Category",
-    props: ['categories'],
+    props: ['categories', 'selected_category_id', 'selected_sub_category_id', 'selected_child_category_id'],
     data(){
         return {
             category_id:null,
@@ -54,7 +54,20 @@ export default {
             }
 
         }
-    }
+    },
+       async mounted() {
+        if (this.selected_category_id) {
+            this.category_id = this.selected_category_id
+             await this.getChildCategory('',)
+        }
+         if (this.selected_sub_category_id) {
+             this.sub_category_id = this.selected_sub_category_id
+             await this.getChildCategory('','sub')
+         }
+         if (this.selected_child_category_id) {
+             this.child_category_id = this.selected_child_category_id
+         }
+     }
 }
 </script>
 
