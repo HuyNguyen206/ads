@@ -5,7 +5,7 @@
         <h2>Please watch video </h2>
         <div class="row ">
             <div class="col-md-3">
-                @include('partial.sidebar')
+              @include('ads.partial.sidebar')
             </div>
             <div class="col-md-9">
                 @if($errors->any())
@@ -92,4 +92,3 @@
         </div>
     </div>
 @endsection
-

@@ -83,6 +83,7 @@ class AdvertisementController extends Controller
      */
     public function edit(Advertisement $advertisement)
     {
+        $this->authorize('edit-ads', $advertisement);
         $rootCategories = Category::query()->rootParent()->get();
         $countries = Country::all();
         return view('ads.edit', compact('advertisement', 'rootCategories', 'countries'));

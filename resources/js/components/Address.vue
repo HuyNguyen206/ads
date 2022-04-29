@@ -24,7 +24,7 @@
 <script>
 export default {
     name: "Address",
-    props: ['countries'],
+    props: ['countries', 'selected_country_id', 'selected_state_id', 'selected_city_id'],
     data(){
         return {
             country_id:null,
@@ -46,12 +46,25 @@ export default {
 
         async getCitiesByStateId() {
             try {
-                const {data} = await axios.get(`/internal-api/address/get-states/${this.state_id}`)
+                const {data} = await axios.get(`/internal-api/address/get-cities/${this.state_id}`)
                 this.cities = data.data
             }catch (e) {
               console.log(e)
             }
         },
+    },
+    async mounted() {
+        if (this.selected_country_id) {
+            this.country_id = this.selected_country_id
+            await this.getStateByCountryId()
+        }
+        if (this.selected_state_id) {
+            this.state_id = this.selected_state_id
+            await this.getCitiesByStateId()
+        }
+        if (this.selected_city_id) {
+            this.city_id = this.selected_city_id
+        }
     }
 }
 </script>

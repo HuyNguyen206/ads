@@ -26,4 +26,7 @@ Route::prefix('cms')->middleware('auth')->group(function (){
 });
 
 Route::resource('ads', \App\Http\Controllers\AdvertisementController::class)->parameter('ads', 'advertisement');
+Route::patch('profile/password/update', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.update-password');
+Route::resource('profile', \App\Http\Controllers\ProfileController::class);
+
 

@@ -38,7 +38,7 @@
             }
         }
     </style>
-    @yield('css')
+    @stack('css')
 </head>
 <body>
 <div id="app">
