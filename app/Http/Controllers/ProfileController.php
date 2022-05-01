@@ -80,13 +80,17 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updatePassword(Request $request, User $profile)
-    {
-        $request->validate([
-            'old_password' => 'current_password',
-            'password' => 'required|confirmed',
-        ]);
-    }
+//    public function updatePassword(Request $request, User $profile)
+//    {
+//         $request->validate([
+//            'old_password' => 'current_password',
+//            'password' => 'required|confirmed',
+//        ]);
+//         $profile->update([
+//             'password' => bcrypt($request->password)
+//         ]);
+//         return back()->with('success', 'Change password successfully');
+//    }
 
     /**
      * Remove the specified resource from storage.

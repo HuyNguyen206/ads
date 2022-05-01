@@ -26,7 +26,17 @@ Route::prefix('cms')->middleware('auth')->group(function (){
 });
 
 Route::resource('ads', \App\Http\Controllers\AdvertisementController::class)->parameter('ads', 'advertisement');
-Route::patch('profile/password/update', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.update-password');
+//Route::patch('profile/password/update', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.update-password');
 Route::resource('profile', \App\Http\Controllers\ProfileController::class);
+
+Route::get('sub-categories/{subCategory}/categories/{category}', [\App\Http\Controllers\Frontend\CategoryController::class, 'getAdsByChildCategory'])
+    ->name('frontend.child-categories')
+    ->scopeBindings();
+Route::get('categories/{rootCategory}/sub-categories/{category}', [\App\Http\Controllers\Frontend\CategoryController::class, 'getAdsBySubCategory'])
+    ->name('frontend.subcategories')
+    ->scopeBindings();
+Route::get('categories/{rootCategory}/products/all', [\App\Http\Controllers\Frontend\CategoryController::class, 'getAdsByRootCategory'])
+    ->name('frontend.root-categories')
+    ->scopeBindings();
 
 

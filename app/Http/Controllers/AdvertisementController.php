@@ -124,8 +124,10 @@ class AdvertisementController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Advertisement $advertisement)
     {
-        //
+        $advertisement->delete();
+        $advertisement->clearMediaCollection('ads');
+        return redirect()->route('ads.index')->with('success', 'Delete ads success');
     }
 }

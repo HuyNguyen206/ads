@@ -81,7 +81,7 @@
                                                             onclick="if(confirm('Do you want to delete this category?')) {document.getElementById('{{$formId}}').submit()}"
                                                             class="btn btn-danger">Delete</button>
                                                         <form id="{{$formId}}"
-                                                              action="{{route('categories.destroy', $ad->slug)}}" method="post">
+                                                              action="{{route('ads.destroy', $ad->slug)}}" method="post">
                                                             @csrf
                                                             @method('delete')
                                                         </form>

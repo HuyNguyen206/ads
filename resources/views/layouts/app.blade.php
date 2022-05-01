@@ -100,14 +100,14 @@
                 <ul class="navbar-nav">
                     @foreach($categories as $rootCategory)
                     <li class="nav-item dropdown" id="myDropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> {{$rootCategory->name}} </a>
+                        <a class="nav-link dropdown-toggle" href="{{route('frontend.root-categories', [$rootCategory->slug])}}" data-bs-toggle="dropdown"> {{$rootCategory->name}} </a>
                         <ul class="dropdown-menu">
                             @foreach($rootCategory->categories as $category)
-                            <li> <a class="dropdown-item" href="#">  {{$category->name}}  @if($hasChild = $category->categories->count()) &raquo; @endif </a>
+                            <li> <a class="dropdown-item" href="{{route('frontend.subcategories', [$rootCategory->slug, $category->slug])}}">  {{$category->name}}  @if($hasChild = $category->categories->count()) &raquo; @endif </a>
                                 @if($hasChild)
                                 <ul class="submenu dropdown-menu">
                                     @foreach($category->categories as $childCategory)
-                                    <li><a class="dropdown-item" href="#">{{$childCategory->name}}</a></li>
+                                    <li><a class="dropdown-item" href="{{route('frontend.child-categories', [$category->slug, $childCategory->slug])}}">{{$childCategory->name}}</a></li>
                                     @endforeach
                                 </ul>
                                 @endif

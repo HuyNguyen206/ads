@@ -12,40 +12,46 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     /**
      * Validate and update the given user's profile information.
      *
-     * @param  mixed  $user
-     * @param  array  $input
+     * @param mixed $user
+     * @param array $input
      * @return void
      */
     public function update($user, array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['image']
 
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-        ])->validateWithBag('updateProfileInformation');
+//            'email' => [
+//                'required',
+//                'string',
+//                'email',
+//                'max:255',
+//                Rule::unique('users')->ignore($user->id),
+//            ],
+        ])->validate();
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
-        } else {
+//        if ($input['email'] !== $user->email &&
+//            $user instanceof MustVerifyEmail) {
+//            $this->updateVerifiedUser($user, $input);
+//        } else
+        {
             $user->forceFill([
                 'name' => $input['name'],
-                'email' => $input['email'],
+//                'email' => $input['email'],
             ])->save();
+            if (request()->hasFile('avatar')) {
+                $user->clearMediaCollection('avatar')->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+            }
+
         }
     }
 
     /**
      * Update the given verified user's profile information.
      *
-     * @param  mixed  $user
-     * @param  array  $input
+     * @param mixed $user
+     * @param array $input
      * @return void
      */
     protected function updateVerifiedUser($user, array $input)

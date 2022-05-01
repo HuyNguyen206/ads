@@ -34,6 +34,20 @@ class Category extends Model implements HasMedia
     {
         $builder->whereNotNull('parent_id');
     }
+
+    public function advertisements($typeKey)
+    {
+        return $this->hasMany(Advertisement::class, $typeKey);
+    }
+
+    public function getAds($typeKey = 'child_category_id')
+    {
+        return $this->advertisements($typeKey)
+              ->when($minPrice = request()->minPrice, fn(Builder $builder) =>  $builder->where('price', '>=', $minPrice))
+              ->when($maxPrice = request()->maxPrice, fn(Builder $builder) =>  $builder->where('price', '<=', $maxPrice))
+              ->get();
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

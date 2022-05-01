@@ -1,8 +1,14 @@
 <div class="card ">
-
+    @php
+        $user = auth()->user();
+    @endphp
     <div class="card-body ">
-        <img class="mx-auto d-block img-thumbnail" src="/img/man.jpg" width="130">
-        <p class="text-center"><b>John Doe</b></p>
+        @if($image = $user->getFirstMediaUrl('avatar'))
+            <img class="mx-auto d-block img-thumbnail" src="{{$image}}" width="130">
+        @else
+            <img class="mx-auto d-block img-thumbnail" src="/img/man.jpg" width="130">
+        @endif
+        <p class="text-center"><b>{{$user->name}}</b></p>
     </div>
     <hr style="border:2px solid blue;">
     <div class="vertical-menu">
