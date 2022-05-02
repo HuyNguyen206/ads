@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Category extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, CreateSlug;
+    use HasFactory, InteractsWithMedia, CreateSlug, HasEagerLimit ;
     protected static $unguarded = true;
 
     public function categories()
@@ -38,6 +39,11 @@ class Category extends Model implements HasMedia
     public function advertisements($typeKey)
     {
         return $this->hasMany(Advertisement::class, $typeKey);
+    }
+
+    public function advertisementsRoot()
+    {
+        return $this->hasMany(Advertisement::class, 'category_id');
     }
 
     public function getAds($typeKey = 'child_category_id')

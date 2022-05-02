@@ -15,6 +15,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "spatie/laravel-medialibrary": "^9.12",
+        "staudenmeir/eloquent-eager-limit": "^1.6",
         "tinymce/tinymce": "^6.0"
     },
     "require-dev": {

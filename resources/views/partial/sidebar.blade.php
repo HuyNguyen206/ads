@@ -12,10 +12,10 @@
     </div>
     <hr style="border:2px solid blue;">
     <div class="vertical-menu">
-        <a href="{{route('ads.index')}}" class="{{request()->routeIs('ads.index') ? 'ads-sidbar-active' : ''}}">Dashboard</a>
+        <a href="{{route('ads.index')}}" class="{{request()->routeIs('ads.index') && !request()->has('published') ? 'ads-sidbar-active' : ''}}">Dashboard</a>
         <a href="{{route('profile.index')}}" class="{{request()->routeIs('profile.index') ? 'ads-sidbar-active' : ''}}">Profile</a>
         <a href="{{route('ads.create')}}" class="{{request()->routeIs('ads.create') ? 'ads-sidbar-active' : ''}}">Create ads</a>
-        <a href="#">Published ads</a>
+        <a href="{{route('ads.index', ['published' => true])}}" @class(['ads-sidbar-active' => request()->routeIs('ads.index') && request()->has('published')])>Published ads</a>
         <a href="#">Pending ads</a>
         <a href="#" class="">Message</a>
     </div>

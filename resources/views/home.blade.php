@@ -28,80 +28,63 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        @foreach($rootCategories as $rc)
         <div class="container mt-5">
         <span>
-            <h1>Car</h1>
-            <a href="#" class="float-right">View all</a>
+            <h1>{{$rc->name}}</h1>
+            <a href="{{route('frontend.root-categories', $rc->slug)}}" class="float-right">View all</a>
 
         </span>
             <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel" data-interval="2500">
                 <div class="carousel-inner">
-
-                    <div class="carousel-item active">
+                    @foreach($rc->advertisementsRoot->chunk(4) as $chunks)
+                    <div class="carousel-item {{$loop->first ? 'active' : ''}}">
                         <div class="row">
+                            @foreach($chunks as $ad)
                             <div class="col-3">
-                                <img src="/product/car1.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer" style="color: blue;">
-                                    Name of product/$500
-                                </p>
+                                <a href="{{route('ads.show-detail', $ad->slug)}}">
+                                    <img src="{{$ad->getFirstMediaUrl('ads.feature_image')}}" style="object-fit: cover" class="img-thumbnail">
+                                    <p class="text-center  card-footer" style="color: blue;">
+                                        {{$ad->name}} /${{$ad->price}}
+                                    </p>
+                                </a>
                             </div>
-
-                            <div class="col-3">
-                                <img src="/product/car1.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
-
-                            <div class="col-3">
-                                <img src="/product/car1.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
-
-                            <div class="col-3">
-                                <img src="/product/car1.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
-
+                            @endforeach
                         </div>
                     </div>
+                    @endforeach
+{{--                    <div class="carousel-item">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-3">--}}
+{{--                                <img src="/product/car2.jpg" class="img-thumbnail">--}}
+{{--                                <p class="text-center  card-footer">--}}
+{{--                                    Name of product/$500--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
 
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-3">
-                                <img src="/product/car2.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
+{{--                            <div class="col-3">--}}
+{{--                                <img src="/product/car2.jpg" class="img-thumbnail">--}}
+{{--                                <p class="text-center  card-footer">--}}
+{{--                                    Name of product/$500--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
 
-                            <div class="col-3">
-                                <img src="/product/car2.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
+{{--                            <div class="col-3">--}}
+{{--                                <img src="/product/car2.jpg" class="img-thumbnail">--}}
+{{--                                <p class="text-center  card-footer">--}}
+{{--                                    Name of product/$500--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
 
-                            <div class="col-3">
-                                <img src="/product/car2.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
+{{--                            <div class="col-3">--}}
+{{--                                <img src="/product/car2.jpg" class="img-thumbnail">--}}
+{{--                                <p class="text-center  card-footer">--}}
+{{--                                    Name of product/$500--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
 
-                            <div class="col-3">
-                                <img src="/product/car2.jpg" class="img-thumbnail">
-                                <p class="text-center  card-footer">
-                                    Name of product/$500
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
 
 
 
@@ -116,6 +99,7 @@
                 </button>
             </div>
         </div>
+        @endforeach
     </div>
     <div class="container">
 

@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Advertisement extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, CreateSlug;
+    use HasFactory, InteractsWithMedia, CreateSlug, HasEagerLimit ;
 
     protected static $unguarded = true;
 

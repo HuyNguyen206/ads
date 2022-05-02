@@ -14,7 +14,7 @@ class tinymceEditor extends Component
      *
      * @return void
      */
-    public function __construct($name, $oldValue)
+    public function __construct($name, $oldValue = null)
     {
         //
         $this->name = $name;

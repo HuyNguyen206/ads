@@ -7,6 +7,7 @@ use App\Http\Requests\AdsUpdateRequest;
 use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Country;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -25,7 +26,9 @@ class AdvertisementController extends Controller
      */
     public function index()
     {
-        $ads = \request()->user()->ads;
+        $ads = \request()->user()->ads()->when(\request()->has('published'),function (Builder $builder) {
+            $builder->where('is_published', true);
+        })->get();
         return view('ads.index', compact('ads'));
     }
 

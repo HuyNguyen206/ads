@@ -36,7 +36,7 @@
                     </div>
                     <div class="card-body">
                      <p>
-                         {{$ad->description}}
+                         {!! $ad->description !!}
                      </p>
                     </div>
 

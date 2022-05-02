@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->get('/', function () {
-    return view('home');
-});
+Route::get('/', [\App\Http\Controllers\Frontend\HomeController::class, 'index']);
 Route::get('categories/ads/{ad}', [\App\Http\Controllers\Frontend\AdsController::class, 'show'])->name('ads.show-detail');
 Route::prefix('cms')->middleware('auth')->group(function (){
     Route::get('/', [\App\Http\Controllers\CMS\DashboardController::class, 'index']);
