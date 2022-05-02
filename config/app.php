@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Cohensive\Embed\EmbedServiceProvider::class,
         /*
          * Application Service Providers...
          */

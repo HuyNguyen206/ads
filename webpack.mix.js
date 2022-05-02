@@ -16,3 +16,4 @@ mix.js('resources/js/app.js', 'public/js').vue()
     //     //
     // ]);
     .sass('resources/scss/app.scss',  'public/css')
+    .copyDirectory('vendor/tinymce/tinymce', 'public/js/tinymce');

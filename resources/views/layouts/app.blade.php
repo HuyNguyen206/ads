@@ -161,5 +161,6 @@
 // end if innerWidth
     });
 </script>
+@stack('js')
 </body>
 </html>

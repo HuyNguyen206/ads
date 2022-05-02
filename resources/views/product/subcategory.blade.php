@@ -47,10 +47,12 @@
                 <div class="row">
                     @forelse($ads as $ad)
                         <div class="col-3">
-                            <img width="200" height="130" src="{{$ad->getFirstMediaUrl('ads.feature_image')}}" alt="">
-                            <p class="text-center card-footer">
-                                {{$ad->name}} / USD {{number_format($ad->price, 2)}}
-                            </p>
+                            <a href="{{route('ads.show-detail', $ad->slug)}}">
+                                <img width="200" height="130" src="{{$ad->getFirstMediaUrl('ads.feature_image')}}" alt="">
+                                <p class="text-center card-footer">
+                                    {{$ad->name}} / USD {{number_format($ad->price, 2)}}
+                                </p>
+                            </a>
                         </div>
                     @empty
                         This category dont have any ads

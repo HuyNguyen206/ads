@@ -43,7 +43,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" class="form-control"></textarea>
+                                <x-forms.tinymce-editor name="description"/>
+{{--                                <textarea name="description" class="form-control"></textarea>--}}
                             </div>
                             <div class="form-group">
                                 <label for="description">Price</label>
@@ -93,3 +94,6 @@
     </div>
 @endsection
 
+@push('js')
+    <x-head.tinymce-config selector="textarea#descriptionAds"/>
+@endpush

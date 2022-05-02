@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->get('/', function () {
     return view('home');
 });
-
+Route::get('categories/ads/{ad}', [\App\Http\Controllers\Frontend\AdsController::class, 'show'])->name('ads.show-detail');
 Route::prefix('cms')->middleware('auth')->group(function (){
     Route::get('/', [\App\Http\Controllers\CMS\DashboardController::class, 'index']);
     Route::resources([
@@ -38,5 +38,6 @@ Route::get('categories/{rootCategory}/sub-categories/{category}', [\App\Http\Con
 Route::get('categories/{rootCategory}/products/all', [\App\Http\Controllers\Frontend\CategoryController::class, 'getAdsByRootCategory'])
     ->name('frontend.root-categories')
     ->scopeBindings();
+
 
 

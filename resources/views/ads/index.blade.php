@@ -72,7 +72,7 @@
                                                         @endif
                                                     </td>
                                                     <td><a href="{{route('ads.edit', $ad->slug)}}" class="btn btn-primary">Edit</a></td>
-                                                    <td><a href="{{route('ads.show', $ad->slug)}}" class="btn btn-info">View</a></td>
+                                                    <td><a href="{{route('ads.show-detail', $ad->slug)}}" class="btn btn-info">View</a></td>
                                                     @php
                                                         $formId = "deleteCategory_$ad->slug"
                                                     @endphp

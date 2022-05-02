@@ -20,4 +20,32 @@ class Advertisement extends Model implements HasMedia
         return 'slug';
     }
 
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault([
+            'name' => 'none'
+        ]);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class)->withDefault([
+            'name' => 'none'
+        ]);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class)->withDefault([
+            'name' => 'none'
+        ]);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class)->withDefault([
+            'name' => 'none'
+        ]);
+    }
+
 }
