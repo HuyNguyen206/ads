@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'email' => 'nguyenlehuyuit@gmail.com'
         ]);
+        User::factory()->create([
+            'email' => 'admin@gmail.com',
+            'is_admin' => true
+        ]);
          \App\Models\User::factory(3)->create();
          $this->call(CategorySeeder::class);
          $this->call(CountrySeeder::class);

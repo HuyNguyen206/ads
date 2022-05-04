@@ -74,6 +74,12 @@
                 <hr>
                 <img src="{{$ad->seller->getFirstMediaUrl('avatar')}}" width="200" height="200" alt="">
                 <p>Seller name: {{$ad->seller->name}}</p>
+                @php
+                    $user = auth()->user()
+                @endphp
+                @auth
+                 <message :seller="{{json_encode($ad->seller)}}" sender_id="{{$user->id}}" ad_id="{{$ad->id}}"></message>
+                @endauth
             </div>
         </div>
     </div>

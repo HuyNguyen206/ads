@@ -11,4 +11,6 @@ const app = createApp({});
 app.component('image-preview', require('./components/ImagePreview.vue').default)
 app.component('category', require('./components/Category.vue').default)
 app.component('address-ads', require('./components/Address.vue').default)
+app.component('message', require('./components/Message.vue').default)
+app.component('conversation', require('./components/Conversation.vue').default)
 app.mount('#app');
