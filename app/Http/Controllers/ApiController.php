@@ -6,6 +6,7 @@ use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
+use App\Http\Resources\MessageResource;
 use App\Http\Resources\StateResource;
 use App\Models\Category;
 use App\Models\Country;
@@ -62,6 +63,6 @@ class ApiController extends Controller
 
     public function getConversationsByUserId($userId)
     {
-        return response()->success(Message::conversationsWithUser(null, $userId)->get());
+        return response()->success(MessageResource::collection(Message::conversationsWithUser(null, $userId)->with(['sender', 'receiver', 'advertisement'])->get()));
     }
 }

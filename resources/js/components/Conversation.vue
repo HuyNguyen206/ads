@@ -1,9 +1,9 @@
 <template>
     <div class="row">
         <div v-if="users" class="col-md-2">
-           <p v-for="user in users" :key="user.id">
-               <a href="" @click.prevent="getConsByUser(e, user.id)">{{user.name}}</a>
-           </p>
+            <p v-for="user in users" :key="user.id">
+                <a href="" @click.prevent="getConsByUser(e, user.id)">{{ user.name }}</a>
+            </p>
 
         </div>
         <div class="col-md-10">
@@ -15,55 +15,48 @@
                     class="card-body chat-msg"
 
                 >
-                    <ul class="chat" v-for="message in messages" :key="message.id">
+                    <ul class="chat" v-for="(message, index) in messages" :key="message.id">
 
-                        <li class="sender clearfix">
+                        <li class="sender clearfix mt-5" style="margin-top: 63px !important;" v-if="userId == message.sender.id">
                             <span class="chat-img left clearfix mx-2">
                             img
                             </span>
                             <div class="chat-body2 clearfix">
                                 <div class="header clearfix">
                                     <strong class="primary-font">
-                                        Name
+                                        {{ message.sender.name }}
                                     </strong>
-                                    <small class="right text-muted">
-                                        <span
-                                            class="glyphicon glyphicon-time"
-                                        ></span
-                                        >
-
-                                        date
-                                    </small
-                                    >
+                                    <small class="right text-muted ms-2">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                        {{ message.created_at.created_at_human }}
+                                    </small>
                                 </div>
-                                <p
-                                >
-
-
-                                    {{message.body}}
-
+                                <p v-if="message.link_ads">
+                                    <a :href="message.link_ads" target="_blank"> {{ message.advertisement.name }}</a>
+                                    <img :src="message.ad_feature_image" class="ms-2" v-if="message.ad_feature_image" width="60" height="50" alt="">
+                                </p>
+                                <p>
+                                    {{ message.body }}
                                 </p>
                             </div>
                         </li>
-                        <li class="buyer clearfix" >
+                        <li class="buyer clearfix  mt-5" v-else>
                             <span class="chat-img right clearfix  mx-2">
                                 img
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header clearfix">
-                                    <small class="left text-muted"
-                                    ><span
-                                        class="glyphicon glyphicon-time"
-                                    ></span
-                                    >date</small
-                                    >
+                                    <small class="left text-muted me-2">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                        {{ message.created_at.created_at_human }}
+                                    </small>
                                     <strong class="right primary-font">
-                                        Name
+                                        {{ message.sender.name }}
                                     </strong>
                                 </div>
                                 <p>
 
-                                    text
+                                    {{ message.body }}
                                 </p>
                             </div>
                         </li>
@@ -99,22 +92,23 @@
 <script>
 export default {
     name: "Conversation",
-    data(){
+    data() {
         return {
-            users:[],
-            messages:[]
+            users: [],
+            messages: []
         }
     },
+    props: ['userId'],
     async mounted() {
         try {
             const res = await axios.get('/internal-api/message/get-all-conversation')
             // console.log(res.data)
             this.users = res.data.data
-        }catch (ex) {
+        } catch (ex) {
 
         }
     },
-    methods:{
+    methods: {
         async getConsByUser(e, userId) {
             const res = await axios.get(`/internal-api/message/get-all-conversation/${userId}`)
             this.messages = res.data.data
@@ -123,15 +117,13 @@ export default {
 };
 </script>
 <style>
-.chat
-{
+.chat {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.chat li
-{
+.chat li {
     margin-bottom: 40px;
     padding-bottom: 5px;
     margin-top: 10px;
@@ -140,71 +132,68 @@ export default {
 }
 
 
-.chat li .chat-body p
-{
+.chat li .chat-body p {
     margin: 0;
 }
 
 
-.chat-msg
-{
+.chat-msg {
     overflow-y: scroll;
     height: 350px;
 }
-.chat-msg .chat-img
-{
+
+.chat-msg .chat-img {
     width: 50px;
     height: 50px;
 }
-.chat-msg .img-circle
-{
+
+.chat-msg .img-circle {
     border-radius: 50%;
 }
-.chat-msg .chat-img
-{
+
+.chat-msg .chat-img {
     display: inline-block;
 }
-.chat-msg .chat-body
-{
+
+.chat-msg .chat-body {
     display: inline-block;
     max-width: 80%;
     background-color: #FFC195;
     border-radius: 12.5px;
     padding: 15px;
 }
-.chat-msg .chat-body2
-{
+
+.chat-msg .chat-body2 {
     display: inline-block;
     max-width: 80%;
-    background-color:#ccc;
+    background-color: #ccc;
     border-radius: 12.5px;
     padding: 15px;
 }
-.chat-msg .chat-body strong
-{
+
+.chat-msg .chat-body strong {
     color: #0169DA;
 }
 
-.chat-msg .buyer
-{
-    text-align: right ;
+.chat-msg .buyer {
+    text-align: right;
     float: right;
 }
-.chat-msg .buyer p
-{
-    text-align: left ;
+
+.chat-msg .buyer p {
+    text-align: left;
 }
-.chat-msg .sender
-{
-    text-align: left ;
+
+.chat-msg .sender {
+    text-align: left;
     float: left;
 }
-.chat-msg .left
-{
+
+.chat-msg .left {
     float: left;
 }
-.chat-msg .right
-{
+
+.chat-msg .right {
     float: right;
 }
 

@@ -48,4 +48,11 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
+
+    public function advertisement()
+    {
+        return $this->belongsTo(Advertisement::class, 'ad_id');
+    }
+
+
 }

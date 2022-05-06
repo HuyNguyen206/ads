@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div class="container ">
-        <conversation></conversation>
+        <conversation user-id="{{auth()->id()}}"></conversation>
     </div>
 @endsection
