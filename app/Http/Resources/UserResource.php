@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AdsResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class AdsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'slug'=> $this->slug,
-            'link_ads' => route('ads.show-detail', $this->slug),
-            'ad_feature_image' => $this->getFirstMediaUrl('ads.feature_image')
+            'name' => $this->name,
+            'email' => $this->email,
+            'avatar' => $this->getFirstMediaUrl('avatar'),
         ];
     }
 }

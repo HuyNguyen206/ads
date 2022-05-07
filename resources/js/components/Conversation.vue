@@ -2,7 +2,7 @@
     <div class="row">
         <div v-if="users" class="col-md-2">
             <p v-for="user in users" :key="user.id">
-                <a href="" @click.prevent="getConsByUser(e, user.id)">{{ user.name }}</a>
+                <a href="" @click.prevent="getMessages(e, user.id)">{{ user.name }}</a>
             </p>
 
         </div>
@@ -13,13 +13,15 @@
                 </div>
                 <div
                     class="card-body chat-msg"
+                    v-chat-scroll
 
                 >
                     <ul class="chat" v-for="(message, index) in messages" :key="message.id">
 
-                        <li class="sender clearfix mt-5" style="margin-top: 63px !important;" v-if="userId == message.sender.id">
+                        <li class="sender clearfix mt-5" style="margin-top: 63px !important;"
+                            v-if="userId == message.sender.id">
                             <span class="chat-img left clearfix mx-2">
-                            img
+                            <img v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
                             </span>
                             <div class="chat-body2 clearfix">
                                 <div class="header clearfix">
@@ -31,9 +33,10 @@
                                         {{ message.created_at.created_at_human }}
                                     </small>
                                 </div>
-                                <p v-if="message.link_ads">
-                                    <a :href="message.link_ads" target="_blank"> {{ message.advertisement.name }}</a>
-                                    <img :src="message.ad_feature_image" class="ms-2" v-if="message.ad_feature_image" width="60" height="50" alt="">
+                                <p v-if="message.advertisement.link_ads">
+                                    <a :href="message.advertisement.link_ads" target="_blank"> {{ message.advertisement.name }}</a>
+                                    <img :src="message.advertisement.ad_feature_image" class="ms-2" v-if="message.advertisement.ad_feature_image"
+                                         width="60" height="50" alt="">
                                 </p>
                                 <p>
                                     {{ message.body }}
@@ -42,7 +45,7 @@
                         </li>
                         <li class="buyer clearfix  mt-5" v-else>
                             <span class="chat-img right clearfix  mx-2">
-                                img
+                                <img v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header clearfix">
@@ -73,11 +76,15 @@
                             type="text"
                             class="form-control input-sm"
                             placeholder="Type your message here..."
+                            @keypress.enter="sendMessage"
                         />
+                        <p v-if="successMessage" class="alert alert-success">{{ successMessage }}</p>
+                        <p v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</p>
                         <span class="input-group-btn">
                             <button
                                 class="btn btn-primary"
-
+                                @click.prevent="sendMessage"
+                                :disabled="!body"
                             >
                                 Send
                             </button>
@@ -95,23 +102,64 @@ export default {
     data() {
         return {
             users: [],
-            messages: []
+            messages: [],
+            receiver_id: null,
+            successMessage: '',
+            errorMessage: '',
+            body: null
         }
     },
     props: ['userId'],
-    async mounted() {
-        try {
-            const res = await axios.get('/internal-api/message/get-all-conversation')
-            // console.log(res.data)
-            this.users = res.data.data
-        } catch (ex) {
+    mounted() {
+        axios.get('/internal-api/message/get-all-conversation')
+            .then(res => {
+                // console.log(res.data)
+                this.users = res.data.data
+            })
 
-        }
+        Echo.private('App.Models.User.' + this.userId)
+            .notification((notification) => {
+                console.log(notification);
+                this.messages.push(notification.message)
+            });
+
     },
     methods: {
-        async getConsByUser(e, userId) {
+        async getMessages(e, userId) {
+            this.getConsByUser(userId)
+            // if (window.messageInterval) {
+            //     console.log('clear')
+            //     clearInterval(window.messageInterval)
+            // }
+            // if (window.countInterval) clearInterval(window.countInterval)
+            //
+            //  var selected_user_id = userId
+            //  window.messageInterval = setInterval(() => {
+            //      // console.log(selected_user_id)
+            //     this.getConsByUser(selected_user_id)
+            // }, 1000)
+        },
+        async getConsByUser(userId) {
+            console.log(userId)
             const res = await axios.get(`/internal-api/message/get-all-conversation/${userId}`)
             this.messages = res.data.data
+            this.receiver_id = userId
+        },
+        async sendMessage() {
+            try {
+                const res = await axios.post(`/internal-api/message/send`, {
+                    user_id: this.userId,
+                    receiver_id: this.receiver_id,
+                    ad_id: this.messages[0].advertisement.id,
+                    body: this.body
+                })
+                this.body = ''
+                this.messages.push(res.data.data)
+                this.successMessage = res.data.message
+            } catch (ex) {
+                this.errorMessage = ex.response.data.message
+            }
+
         }
     }
 };

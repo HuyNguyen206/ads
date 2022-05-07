@@ -11,9 +11,11 @@
     },
     "devDependencies": {
         "axios": "^0.21",
+        "laravel-echo": "^1.11.7",
         "laravel-mix": "^6.0.43",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
+        "pusher-js": "^7.1.0-beta",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.50.1",
         "sass-loader": "^12.6.0",
@@ -25,6 +27,7 @@
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1",
-        "vue": "^3.2.33"
+        "vue": "^3.2.33",
+        "vue-chat-scroll": "^2.0.0-alpha.4"
     }
 }

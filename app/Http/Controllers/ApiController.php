@@ -13,6 +13,7 @@ use App\Models\Country;
 use App\Models\Message;
 use App\Models\State;
 use App\Models\User;
+use App\Notifications\NewMessageNotification;
 
 class ApiController extends Controller
 {
@@ -38,8 +39,10 @@ class ApiController extends Controller
 
     public function store(MessageStoreRequest $request)
     {
-        $message = Message::create($request->validated());
-        return response()->success($message, 'Your message has been sent!');
+        $message = Message::query()->create($request->validated())->loadMissing(['sender', 'receiver', 'advertisement']);
+        $receiver = $message->receiver;
+        $receiver->notify(new NewMessageNotification($message));
+        return response()->success(MessageResource::make($message), 'Your message has been sent!');
     }
 
     public function getConversations()

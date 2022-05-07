@@ -3,6 +3,9 @@ import {
     createApp
 } from 'vue';
 const app = createApp({});
+import VueChatScroll from 'vue-chat-scroll';
+
+app.use(VueChatScroll);
 
 // You can register your components globally like this also
 // Add as many components as you want.

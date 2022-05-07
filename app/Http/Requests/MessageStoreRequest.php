@@ -28,7 +28,7 @@ class MessageStoreRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'receiver_id' => 'required|different:user_id|exists:users,id',
             'ad_id' => ['required', Rule::exists('advertisements', 'id')],
-            'body' => 'required|string|min:3|max:500'
+            'body' => 'required|string|max:500'
         ];
     }
 }

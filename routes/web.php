@@ -37,7 +37,7 @@ Route::get('categories/{rootCategory}/products/all', [\App\Http\Controllers\Fron
     ->name('frontend.root-categories')
     ->scopeBindings();
 
-Route::get('message', [\App\Http\Controllers\Frontend\MessageController::class, 'index']);
+Route::get('message', [\App\Http\Controllers\Frontend\MessageController::class, 'index'])->name('message.index');
 
 
 

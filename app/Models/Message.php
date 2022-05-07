@@ -26,7 +26,7 @@ class Message extends Model
               ->orWhere(function ($builder) use ($userId, $withUserId){
                   $builder->receiveFromUser($userId, $withUserId);
               })
-            ->latest();
+            ->oldest();
     }
 
     public function scopeSendToUser(Builder $builder, $userId, $toUserId)

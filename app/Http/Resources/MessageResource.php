@@ -17,11 +17,9 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'sender' => $this->whenLoaded('sender'),
-            'receiver' => $this->whenLoaded('receiver'),
-            'advertisement' => $ad = $this->whenLoaded('advertisement'),
-            'link_ads' => $ad ? route('ads.show-detail', $ad->slug) : null,
-            'ad_feature_image' => $ad ? $ad->getFirstMediaUrl('ads.feature_image') : null,
+            'sender' => UserResource::make($this->whenLoaded('sender')),
+            'receiver' =>  UserResource::make($this->whenLoaded('receiver')),
+            'advertisement' => AdsResource::make($this->whenLoaded('advertisement')),
             'created_at' => [
                 'created_at_raw' => $this->created_at,
                 'created_at_human' => $this->created_at->diffForHumans()

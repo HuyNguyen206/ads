@@ -78,6 +78,9 @@
                                     <a class="dropdown-item" href="{{ route('ads.index') }}">
                                         Ads
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('message.index') }}">
+                                        Message
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
