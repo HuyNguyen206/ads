@@ -48,4 +48,32 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     {
         return $this->hasMany(Advertisement::class);
     }
+
+    public function socialProviders()
+    {
+        return $this->hasMany(SocialProvider::class, 'user_id');
+    }
+
+    public function getAvatarFromSocial()
+    {
+        $providers = $this->socialProviders()->get(['provider'])->pluck('provider')->toArray();
+        foreach ($providers as $provider) {
+            if ($avatar = $this->getFirstMediaUrl("avatar.$provider")){
+                return $avatar;
+            }
+        }
+    }
+
+    public function getAvatar()
+    {
+        if ($url = $this->getFirstMediaUrl('avatar')) {
+            return $url;
+        }
+        $providers = $this->socialProviders()->get(['provider'])->pluck('provider')->toArray();
+        foreach ($providers as $provider) {
+            if ($avatar = $this->getFirstMediaUrl("avatar.$provider")){
+                return $avatar;
+            }
+        }
+    }
 }

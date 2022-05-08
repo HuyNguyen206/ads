@@ -3,20 +3,23 @@
     <div class="main-panel container">
         <div class="row">
             <div class="col-md-3">
-                @include('partial.sidebar')
+                <div class="card ">
+                    <div class="card-body ">
+                        @if($image = $user->getFirstMediaUrl('avatar'))
+                            <img class="mx-auto d-block img-thumbnail" src="{{$image}}" width="130">
+                        @else
+                            <img class="mx-auto d-block img-thumbnail" src="/img/man.jpg" width="130">
+                        @endif
+                        <p class="text-center"><b>{{$user->name}}</b></p>
+                    </div>
+                </div>
             </div>
             <div class="col-md-9">
                 <div class="content-wrapper">
-                    @include('backend.alert.message')
-                    <h4>Manage Ads</h4>
                     <div class="row justify-content-center">
-
-
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-
-
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>

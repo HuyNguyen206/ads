@@ -18,7 +18,8 @@ class AdsResource extends JsonResource
             'id' => $this->id,
             'slug'=> $this->slug,
             'link_ads' => route('ads.show-detail', $this->slug),
-            'ad_feature_image' => $this->getFirstMediaUrl('ads.feature_image')
+            'ad_feature_image' => $this->getFirstMediaUrl('ads.feature_image'),
+            'name' => $this->name
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\StateResource;
+use App\Http\Resources\UserResource;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Message;
@@ -61,7 +62,7 @@ class ApiController extends Controller
 //               return $con->receiver;
 //           }
 //        })->filter();
-        return response()->success($chatUsers);
+        return response()->success(UserResource::collection($chatUsers));
     }
 
     public function getConversationsByUserId($userId)

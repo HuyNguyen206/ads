@@ -3,7 +3,7 @@
         $user = auth()->user();
     @endphp
     <div class="card-body ">
-        @if($image = $user->getFirstMediaUrl('avatar'))
+        @if($image = $user->getAvatar())
             <img class="mx-auto d-block img-thumbnail" src="{{$image}}" width="130">
         @else
             <img class="mx-auto d-block img-thumbnail" src="/img/man.jpg" width="130">

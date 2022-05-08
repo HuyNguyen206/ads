@@ -7,6 +7,7 @@ use App\Http\Requests\AdsUpdateRequest;
 use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -28,7 +29,7 @@ class AdvertisementController extends Controller
     {
         $ads = \request()->user()->ads()->when(\request()->has('published'),function (Builder $builder) {
             $builder->where('is_published', true);
-        })->get();
+        })->paginate(5);
         return view('ads.index', compact('ads'));
     }
 
@@ -132,5 +133,13 @@ class AdvertisementController extends Controller
         $advertisement->delete();
         $advertisement->clearMediaCollection('ads');
         return redirect()->route('ads.index')->with('success', 'Delete ads success');
+    }
+
+    public function viewAdsByUserEmail(User $user)
+    {
+        $ads = $user->ads()->when(\request()->has('published'),function (Builder $builder) {
+            $builder->where('is_published', true);
+        })->paginate(5);
+        return view('ads.individual', compact('ads', 'user'));
     }
 }

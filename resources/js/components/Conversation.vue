@@ -2,7 +2,11 @@
     <div class="row">
         <div v-if="users" class="col-md-2">
             <p v-for="user in users" :key="user.id">
-                <a href="" @click.prevent="getMessages(e, user.id)">{{ user.name }}</a>
+                <span>
+                    <img style="border-radius: 50%" v-if="user.avatar" :src="user.avatar" width="50" height="50" alt="">
+                </span>
+                <a v-if="receiver_id === user.id" href="" style="font-weight: bold" @click.prevent="getMessages(e, user.id)">{{ user.name }}</a>
+                <a v-else href=""  @click.prevent="getMessages(e, user.id)">{{ user.name }}</a>
             </p>
 
         </div>
@@ -14,14 +18,14 @@
                 <div
                     class="card-body chat-msg"
                     v-chat-scroll
-
+                    v-if="this.receiver_id"
                 >
                     <ul class="chat" v-for="(message, index) in messages" :key="message.id">
 
                         <li class="sender clearfix mt-5" style="margin-top: 63px !important;"
                             v-if="userId == message.sender.id">
                             <span class="chat-img left clearfix mx-2">
-                            <img v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
+                            <img style="border-radius: 50%" v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
                             </span>
                             <div class="chat-body2 clearfix">
                                 <div class="header clearfix">
@@ -45,7 +49,7 @@
                         </li>
                         <li class="buyer clearfix  mt-5" v-else>
                             <span class="chat-img right clearfix  mx-2">
-                                <img v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
+                                <img style="border-radius: 50%" v-if="message.sender.avatar" :src="message.sender.avatar" width="50" height="50" alt="">
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header clearfix">
@@ -68,6 +72,11 @@
                         </li>
                     </ul>
                 </div>
+                <div v-else style="min-height: 250px">
+                    <p class="text-center">
+                        Please select user to chat
+                    </p>
+                </div>
                 <div class="card-footer">
                     <div class="input-group">
                         <input
@@ -84,7 +93,7 @@
                             <button
                                 class="btn btn-primary"
                                 @click.prevent="sendMessage"
-                                :disabled="!body"
+                                :disabled="!body || !receiver_id"
                             >
                                 Send
                             </button>

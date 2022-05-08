@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <div class="container ">
         <div class="row ">
             <div class="col-md-6">
@@ -72,16 +71,20 @@
                 <p>Posted: {{$ad->created_at->diffForHumans()}}</p>
                 <p>Posted: {{$ad->listing_location}}</p>
                 <hr>
-                <img src="{{$ad->seller->getFirstMediaUrl('avatar')}}" width="200" height="200" alt="">
-                <p>Seller name: {{$ad->seller->name}}</p>
+                <img src="{{$ad->seller->getAvatar()}}" width="200" height="200" alt="">
+                <p>Seller name: <a href="{{route('user.ads', $ad->seller->email)}}">{{$ad->seller->name}}</a></p>
+                <show-phone-number number="{{$ad->phone_number}}"></show-phone-number>
                 @php
                     $user = auth()->user()
                 @endphp
                 @auth
-                 <message :seller="{{json_encode($ad->seller)}}" sender_id="{{$user->id}}" ad_id="{{$ad->id}}"></message>
+                    @if($ad->user_id !== $user->id)
+                         <message :seller="{{json_encode($ad->seller)}}" sender_id="{{$user->id}}" ad_id="{{$ad->id}}"></message>
+                    @endif
                 @endauth
             </div>
         </div>
     </div>
 
 @endsection
+
