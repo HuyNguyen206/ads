@@ -49,4 +49,9 @@ class Advertisement extends Model implements HasMedia
         ]);
     }
 
+    public function savedUsers()
+    {
+        return $this->belongsToMany(User::class, 'saved_ads', 'ad_id', 'user_id');
+    }
+
 }

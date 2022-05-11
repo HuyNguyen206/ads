@@ -9,3 +9,4 @@ Route::get('address/get-cities/{state}', [\App\Http\Controllers\ApiController::c
 Route::post('message/send', [\App\Http\Controllers\ApiController::class, 'store']);
 Route::get('message/get-all-conversation', [\App\Http\Controllers\ApiController::class, 'getConversations']);
 Route::get('message/get-all-conversation/{userId}', [\App\Http\Controllers\ApiController::class, 'getConversationsByUserId'])->name('message.conversation-by-user');
+Route::post('ads/{adsId}/save', [\App\Http\Controllers\ApiController::class, 'storeSavedAd']);

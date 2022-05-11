@@ -76,4 +76,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             }
         }
     }
+
+    public function savedAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'saved_ads', 'user_id', 'ad_id');
+    }
+
+    public function isAlreadySaveThisAd($adId)
+    {
+        return $this->savedAdvertisements()->where('advertisements.id', $adId)->exists();
+    }
 }

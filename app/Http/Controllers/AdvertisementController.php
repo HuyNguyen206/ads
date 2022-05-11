@@ -7,17 +7,19 @@ use App\Http\Requests\AdsUpdateRequest;
 use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Country;
+use App\Models\Fraud;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
 class AdvertisementController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except('show');
+        $this->middleware('auth')->except('show', 'reportAds');
     }
 
     /**
@@ -27,8 +29,12 @@ class AdvertisementController extends Controller
      */
     public function index()
     {
-        $ads = \request()->user()->ads()->when(\request()->has('published'),function (Builder $builder) {
+        $hasPublished = request()->has('published');
+        $publishedTrue = request()->boolean('published');
+        $ads = \request()->user()->ads()->when($hasPublished && $publishedTrue,function (Builder $builder) {
             $builder->where('is_published', true);
+        })->when($hasPublished && !$publishedTrue,function (Builder $builder) {
+            $builder->where('is_published', false);
         })->paginate(5);
         return view('ads.index', compact('ads'));
     }
@@ -141,5 +147,31 @@ class AdvertisementController extends Controller
             $builder->where('is_published', true);
         })->paginate(5);
         return view('ads.individual', compact('ads', 'user'));
+    }
+
+    public function getAdsSaved()
+    {
+        $ads = \request()->user()->savedAdvertisements()->paginate(5);
+        return view('ads.ads-saved', compact('ads'));
+    }
+
+    public function deleteSavedAd($adId)
+    {
+        \request()->user()->savedAdvertisements()->detach($adId);
+        return back()->with('success', 'This ad was removed successfully');
+    }
+
+    public function reportAds()
+    {
+        $user = auth()->user();
+        $validatedData = \request()->validate([
+            'ad_id' => ['required', Rule::exists('advertisements', 'id')],
+           'reason' => ['required'],
+           'email' => ['email', Rule::requiredIf(fn() => !isset($user))],
+            'message' => ''
+        ]);
+        $validatedData['email'] = $user ? $user->email : $validatedData['email'];
+        Fraud::create($validatedData);
+        return back()->with('success', 'This ad was report successfully');
     }
 }

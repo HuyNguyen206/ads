@@ -17,4 +17,5 @@ app.component('address-ads', require('./components/Address.vue').default)
 app.component('message', require('./components/Message.vue').default)
 app.component('conversation', require('./components/Conversation.vue').default)
 app.component('show-phone-number', require('./components/ShowPhoneNumber.vue').default)
+app.component('save-ad', require('./components/SaveAd.vue').default)
 app.mount('#app');

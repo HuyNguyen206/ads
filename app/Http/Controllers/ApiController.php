@@ -69,4 +69,10 @@ class ApiController extends Controller
     {
         return response()->success(MessageResource::collection(Message::conversationsWithUser(null, $userId)->with(['sender', 'receiver', 'advertisement'])->get()));
     }
+
+    public function storeSavedAd($adId)
+    {
+        request()->user()->savedAdvertisements()->syncWithoutDetaching($adId);
+        return response()->success([], 'The ad was saved successfully!');
+    }
 }

@@ -15,8 +15,9 @@
         <a href="{{route('ads.index')}}" class="{{request()->routeIs('ads.index') && !request()->has('published') ? 'ads-sidebar-active' : ''}}">Dashboard</a>
         <a href="{{route('profile.index')}}" class="{{request()->routeIs('profile.index') ? 'ads-sidebar-active' : ''}}">Profile</a>
         <a href="{{route('ads.create')}}" class="{{request()->routeIs('ads.create') ? 'ads-sidebar-active' : ''}}">Create ads</a>
-        <a href="{{route('ads.index', ['published' => true])}}" @class(['ads-sidebar-active' => request()->routeIs('ads.index') && request()->has('published')])>Published ads</a>
-        <a href="#">Pending ads</a>
+        <a href="{{route('ads.index', ['published' => true])}}" @class(['ads-sidebar-active' => request()->routeIs('ads.index') && request()->boolean('published')])>Published ads</a>
+        <a href="{{route('ads.ads-saved')}}" @class(['ads-sidebar-active' => request()->routeIs('ads.ads-saved')])>Ads saved</a>
+        <a href="{{route('ads.index', ['published' => false])}}" @class(['ads-sidebar-active' => request()->routeIs('ads.index') && request()->has('published') && !request()->boolean('published')])>Pending ads</a>
         <a class="{{request()->routeIs('message.index') ? 'ads-sidebar-active' : ''}}" href="{{ route('message.index') }}">
             Message
         </a>
